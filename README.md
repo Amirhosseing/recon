@@ -62,18 +62,19 @@ go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
 # FFUF
 go install -v github.com/ffuf/ffuf/v2@latest
 
-# nmap (via package manager)
+# NMAP (via package manager)
 sudo apt install nmap -y
 
 Tip: Move binaries to ~/go/bin/ and add to PATH:
 
 export PATH=$PATH:~/go/bin
 
-Installation & Usage
+# Installation & Usage
 
 
 # 1. Clone the repo
 git clone https://github.com/amirhosseing/recon-pipeline.git
+
 cd recon-pipeline
 
 # 2. Install Python dependencies
@@ -94,7 +95,9 @@ Output Structure
 All scans saved in scans/ folder:
 
 scans/
+
  └── 20251202_153045/
+
      ├── live_hosts.txt
      ├── subfinder.txt
      ├── subfinder.json
@@ -107,7 +110,7 @@ scans/
      └── summary.json
 
 
-Contributing
+# Contributing
 
 Pull requests are welcome! Especially for:
 
