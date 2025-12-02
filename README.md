@@ -1,4 +1,4 @@
-#Recon Pipeline – Ultimate Automated Recon Tool
+Recon Pipeline – Ultimate Automated Recon Tool
 
 A fully automated, real-time, beautiful web-based reconnaissance pipeline built with Flask + Socket.IO.
 Performs real tool chaining (no fake progress bars):
