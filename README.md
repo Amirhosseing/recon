@@ -73,7 +73,7 @@ Installation & Usage
 
 
 # 1. Clone the repo
-git clone https://github.com/yourusername/recon-pipeline.git
+git clone https://github.com/amirhosseing/recon-pipeline.git
 cd recon-pipeline
 
 # 2. Install Python dependencies
