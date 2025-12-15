@@ -71,7 +71,6 @@ Password: Qwer12#$
 📂 Output Structure
 All results are organized in the scans/ directory. Each stage produces JSON output for easy parsing.
 
-text
 scans/
 ├── subfinder.json       # Passive Subdomains
 ├── dnsx.json            # Resolved IPs
@@ -82,6 +81,7 @@ scans/
 ├── ffuf_dir.json        # Directory Fuzzing
 ├── live_hosts.txt       # Validated Host List
 └── summary.json         # Scan Metadata
+
 🔍 Virtual Host Scanning
 This framework includes a dedicated step for VHost discovery. It bypasses reverse proxies by fuzzing the Host header against the direct IP address found during the DNS resolution phase.
 
