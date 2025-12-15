@@ -72,6 +72,7 @@ Password: Qwer12#$
 All results are organized in the scans/ directory. Each stage produces JSON output for easy parsing.
 
 scans/
+
 ├── subfinder.json       # Passive Subdomains
 ├── dnsx.json            # Resolved IPs
 ├── httpx.json           # Active Web Servers & Tech Stack
