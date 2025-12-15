@@ -1,227 +1,103 @@
-Recon Pipeline
+🛡️ Recon Pipeline
+The Ultimate Automated Reconnaissance Framework
 
-Ultimate Automated Reconnaissance Framework
+Recon Pipeline is a fully automated, real-time, web-based reconnaissance framework built with Flask and Socket.IO. It orchestrates industry-standard tools in a smart, dependency-aware pipeline to perform end-to-end reconnaissance with a beautiful, dark-themed offline UI.
 
-Recon Pipeline is a fully automated, real-time, web-based reconnaissance framework built with Flask + Socket.IO. It performs true tool chaining (no simulated progress) and provides a fully offline, dark-themed UI for end-to-end reconnaissance.
+🚀 How It Works
+Unlike simple script wrappers, Recon Pipeline performs true tool chaining. It ensures only live, validated targets are passed to subsequent stages to save time and resources.
 
-The framework orchestrates industry-standard tools in a smart, dependency-aware pipeline, ensuring that only validated targets are passed to subsequent stages.
+The Pipeline Flow:
+Subfinder ➔ DNSx ➔ HTTPX ➔ TLSx ➔ Nmap ➔ Nuclei ➔ FFUF
 
-Recon Pipeline Flow
-Subfinder
-   ↓
-DNSx
-   ↓
-HTTPX        (HTTP/S probing, status, title, tech)
-   ↓
-TLSx         (TLS & certificate inspection)
-   ↓
-Nmap         (Port & service scanning)
-   ↓
-Nuclei       (Vulnerability scanning)
-   ↓
-FFUF         (Directory + Virtual Host brute-force)
+✨ Key Features
+⚡ Real-Time Updates: Live progress tracking via WebSockets.
 
+🌐 Web-Based UI: Fully offline, dark-themed interface (No CDNs/External calls).
 
-Only live, reachable hosts progress through the pipeline.
+🔗 Smart Chaining: Output of one tool feeds the next (e.g., only HTTP alive hosts go to Nuclei).
 
-Key Features
+📂 VHost Discovery: Dedicated step for Virtual Host brute-forcing on shared IPs.
 
-Real-time progress with live WebSocket updates
+📦 One-Click Export: Download all results and raw logs as a single ZIP archive.
 
-Fully offline, dark-themed web UI
+🔒 Secure: Simple login protection and local execution.
 
-Passive subdomain enumeration and live DNS resolution
+🛠️ Prerequisites
+Ensure you have Python 3, Go, and Nmap installed.
 
-HTTP/S probing with metadata collection
+1. Install Core Tools
+You must have the following tools in your system $PATH:
 
-TLS and certificate inspection
+bash
+# Install Nmap
+sudo apt install nmap -y
 
-Port scanning and service fingerprinting
-
-Vulnerability scanning using Nuclei templates
-
-Directory and virtual host enumeration
-
-Smart host chaining (no wasted scans)
-
-Pretty JSON output for every stage
-
-Download all results as a single ZIP archive
-
-Simple login protection
-
-Full execution logging to recon.log
-
-No CDN, no external JS/CSS, no Cloudflare
-
-Tools Used (Complete & Accurate)
-Core Reconnaissance Tools
-
-All tools must be installed and available in PATH
-
-Subfinder – Passive subdomain enumeration
-
-DNSx – DNS resolution and live host discovery
-
-HTTPX – HTTP/S probing, status codes, titles, technologies
-
-TLSx – TLS support and certificate analysis
-
-Nmap – Port scanning and service detection
-
-Nuclei – Template-based vulnerability scanning
-
-FFUF – Directory fuzzing and virtual host enumeration
-
-Supporting Technologies
-
-Python 3 – Orchestration, execution control, parsing
-
-Flask – Web backend
-
-Flask-SocketIO – Real-time WebSocket updates
-
-Go – Runtime for ProjectDiscovery tools and FFUF
-
-JSON – Structured output format
-
-ZIP utilities – Result packaging
-
-Linux shell utilities – Process execution and piping
-
-Installation
-1. Clone the Repository
-git clone https://github.com/amirhosseing/recon-pipeline.git
-cd recon-pipeline
-
-2. Install Recon Tools
-ProjectDiscovery Tools
+# Install ProjectDiscovery Tools (Go required)
 go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 go install -v github.com/projectdiscovery/dnsx/cmd/dnsx@latest
 go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 go install -v github.com/projectdiscovery/tlsx/cmd/tlsx@latest
 go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
 
-FFUF
+# Install FFUF
 go install -v github.com/ffuf/ffuf/v2@latest
 
-Nmap
-sudo apt install nmap -y
-
-Add Go Binaries to PATH
+# Add Go binaries to PATH (if not already done)
 export PATH=$PATH:~/go/bin
+📥 Installation
+bash
+# 1. Clone the repository
+git clone https://github.com/amirhosseing/recon-pipeline.git
+cd recon-pipeline
 
-3. Install Python Dependencies
+# 2. Install Python dependencies
 pip3 install flask flask-socketio
+🖥️ Usage
+Start the Server:
 
-Running the Application
+bash
 python3 app.py
+Access the UI:
+Open your browser and navigate to: http://localhost:5000
 
+Login:
 
-Open your browser:
-
-http://YOUR_IP:5000
-
-Default Credentials
 Username: administrator
+
 Password: Qwer12#$
 
+⚠️ Please change these credentials in app.py before use!
 
-Change these credentials before any production or shared use.
+📂 Output Structure
+All results are organized in the scans/ directory. Each stage produces JSON output for easy parsing.
 
-Virtual Host Scanning (Example)
-
-Recon Pipeline performs virtual host discovery using FFUF with the Host header against shared IPs.
-
-Example Command
-ffuf \
-  -u http://180.140.0.1 \
-  -H "Host: FUZZ.x.com" \
-  -w wordlist.txt \
-  -ac \
-  -of json \
-  -o ffuf_vhost_x.json
-
-Example Result (Excerpt)
-{
-  "host": "payment.x.ir",
-  "status": 200,
-  "content-type": "text/html; charset=utf-8",
-  "length": 8248
-}
-
-
-This technique uncovers:
-
-Hidden subdomains behind shared IPs
-
-Misconfigured reverse proxies
-
-Internal or staging services
-
-Sample HTTPX JSON Output
-{
-  "input": "https://c.com",
-  "url": "https://x.com",
-  "status_code": 200,
-  "title": "x | Payment",
-  "scheme": "https",
-  "port": "443",
-  "webserver": "nginx",
-  "content_type": "text/html; charset=utf-8",
-  "tech": [
-    "Nginx",
-    "React",
-    "HTTP/2"
-  ],
-  "tls": true
-}
-
-
-HTTPX output is used to:
-
-Filter live web services
-
-Identify HTTPS support
-
-Feed validated targets into TLSx, Nmap, and Nuclei
-
-Output Structure
-
-All results are saved under the scans/ directory:
-
+text
 scans/
+├── subfinder.json       # Passive Subdomains
+├── dnsx.json            # Resolved IPs
+├── httpx.json           # Active Web Servers & Tech Stack
+├── tlsx.json            # Certificates Info
+├── nmap.xml             # Port Scan Results
+├── nuclei.json          # Vulnerabilities
+├── ffuf_dir.json        # Directory Fuzzing
+├── live_hosts.txt       # Validated Host List
+└── summary.json         # Scan Metadata
+🔍 Virtual Host Scanning
+This framework includes a dedicated step for VHost discovery. It bypasses reverse proxies by fuzzing the Host header against the direct IP address found during the DNS resolution phase.
 
-    ├── subfinder.txt
-    ├── subfinder.json
-    ├── dnsx.json
-    ├── httpx.json
-    ├── tlsx.json
-    ├── nmap.xml
-    ├── nuclei.json
-    ├── ffuf_example.com.json
-    ├── wordlist.txt
-    ├── live_hosts.txt
-    └── summary.json
+Logic:
+http://<Shared_IP> -H "Host: FUZZ.target.com"
 
+🤝 Contributing
+Pull requests are welcome! We are looking for:
 
-Each phase produces machine-readable, auditable output.
+Integrations (Amass, Katana).
 
-Contributing
+Dark/Light mode toggles.
 
-Pull requests are welcome, especially for:
+Improved error handling.
 
-Adding Amass, Katana, or Httpx enhancements
+⚠️ Disclaimer
+This project is intended for authorized security testing and research only. The user is responsible for complying with all applicable laws and regulations. The authors are not responsible for misuse.
 
-Improved error handling and retries
-
-Rate limiting and concurrency controls
-
-Dark / light theme toggle
-
-Markdown / HTML report generation
-
-Disclaimer
-
-This project is intended only for authorized security testing and research.
-The user is responsible for complying with all applicable laws and regulations.
+Made with ❤️ by AmirhosseinG
